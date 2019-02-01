@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff6f9ea6f4491b24b8d1e011af230e87, type: 3}
+  m_Name: GuardPatrol
+  m_EditorClassIdentifier: 
+  actions:
+  - {fileID: 11400000, guid: f1603f33c52795748a93abb472d1b22a, type: 2}
+  gizmoColor: {r: 0, g: 1, b: 1, a: 1}
+  transitions:
+  - decision: {fileID: 11400000, guid: 8b9c5e622c31069448ef89c37f2dc179, type: 2}
+    trueState: {fileID: 11400000, guid: 56724820fbf181b4f8c2ac74965940e5, type: 2}
+    falseState: {fileID: 11400000, guid: 939c0adf042f4614aae6ec82de04be62, type: 2}
