@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * This script holds the patrolling objective.
+ * It tells the guard to move linearly from one patrol spot to the next.
+ * It will stand still if there is one patrol spot.
+ * It will throw an error if there are no patrol spots.
+ */
+
 [CreateAssetMenu(menuName = "GuardController/Actions/Patrol")]
 public class PatrolAction : Action {
     public override void Act(StateController controller)
