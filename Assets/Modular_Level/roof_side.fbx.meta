@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b40a99aec004168489eab3de430a33bf
+guid: b89812810e6ac3e4db7cd6c12e8edb2a
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -8,7 +8,7 @@ ModelImporter:
     2100000: lambert1
     2300000: //RootNode
     3300000: //RootNode
-    4300000: pCube3
+    4300000: pPlane3
   externalObjects: {}
   materials:
     importMaterials: 1

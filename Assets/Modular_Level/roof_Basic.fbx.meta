@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b40a99aec004168489eab3de430a33bf
+guid: 92686816d20616441a5105a55c5be1e0
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -8,7 +8,7 @@ ModelImporter:
     2100000: lambert1
     2300000: //RootNode
     3300000: //RootNode
-    4300000: pCube3
+    4300000: pPlane5
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -40,7 +40,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 40
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     importVisibility: 1
