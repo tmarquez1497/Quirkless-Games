@@ -15,6 +15,7 @@ public class StateController : MonoBehaviour {
     [HideInInspector] public Transform chaseTarget;             // The transform of the object to chase (when chasing)
 
     private bool isAiActive;                                    // Is the navigation system on
+    private GameManager gameManager = null;                     // Reference to the GameManger script
 
     private void Awake()
     {
@@ -23,18 +24,27 @@ public class StateController : MonoBehaviour {
         GameObject[] wayPoints = GameObject.FindGameObjectsWithTag("PatrolSpot");
         wayPointList = new List<Transform>();
         isAiActive = true;
+        if (GameObject.Find("GameManager") != null)
+            gameManager = GameManager.instance;
 
         for (int i = 0; i < wayPoints.Length; i++)
             wayPointList.Add(wayPoints[i].transform);
     }
 
     void Update () {
-        // If the navigation system is not on, do nothing.
-        if (!isAiActive)
-            return;
+        // If the GameManager exists and the game isn't paused . . .
+        if (gameManager == null || !gameManager.isPaused)
+        {
+            // If the navigation system is not on, do nothing.
+            if (!isAiActive)
+                return;
 
-        // Otherwise, keep performing the current objective.
-        currentState.UpdateState(this);
+            // Otherwise, keep performing the current objective.
+            currentState.UpdateState(this);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+            navMeshAgent.isStopped = !navMeshAgent.isStopped;
 	}
 
     public void TransitionToState(State nextState)
