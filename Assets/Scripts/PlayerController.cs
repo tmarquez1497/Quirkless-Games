@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour {
     private bool jumping;                                       // Is the player in the air
     private bool isWalking;                                     // Is the shift key being held or not
     private GameManager gameManager = null;                     // Reference to the GameManager script
+    private bool isDead = false;
 
 	void Start () {
         // Grab the character controller component, find the camera, find the GameManager and startup the mouse script.
@@ -110,6 +111,11 @@ public class PlayerController : MonoBehaviour {
             // Check to see if the mouse pointer should be hidden.
             mouseLook.UpdateCursorLock();
         }
+    }
+
+    public void SetCursor(bool val)
+    {
+        mouseLook.SetCursorLock(val);
     }
 
     private void GetInput(out float speed)

@@ -2,47 +2,45 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameOver : MonoBehaviour {
 
-    public float totalTime;
+    public int totalTimes;
     public float waitTime;
 
     private Text mText;
     private string message = "You've Been Spotted!!!";
     private const string alphabet = "ABCČĆDĐEFGHIJKLMNOPQRSŠTUVWXYZŽabcčćdđefghijklmnopqrsštuvwxyzžĂÂÊÔƠƯăâêôơư1234567890‘?’“!”(%)[#]{@}/&\\<-+÷×=>®©$€£¥¢:;,.*";
+    private const string binary = "01011001011011110111010110000101110011011010110110011101110111011100000110100101110101011100010110110101100011";
     private bool isAnimating = false;
     private float timeLeft;
+    private Scene currentScene;
 
     // Use this for initialization
     void Start () {
         mText = transform.GetChild(0).GetComponent<Text>();
-        timeLeft = totalTime;
+        currentScene = SceneManager.GetActiveScene();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(isAnimating && mText.text.Equals(message))
-        {
-            StopCoroutine("Animate");
-            isAnimating = false;
-            timeLeft = totalTime;
-        }
+		
 	}
 
     IEnumerator Animate()
     {
         string result = "";
+        string subMessage = message;
         isAnimating = true;
 
-        while (timeLeft > waitTime)
+        while (totalTimes-- >= 0)
         {
             result = "";
-            timeLeft -= waitTime;
             for (int i = 0; i < mText.text.Length; i++)
             {
-                if (timeLeft > waitTime)
-                    result += alphabet[Random.Range(0, alphabet.Length)];
+                if (totalTimes > 0)
+                    result += binary[Random.Range(0, binary.Length)];
                 else
                     result = message;
             }
@@ -50,14 +48,21 @@ public class GameOver : MonoBehaviour {
             //Debug.Log("Time Left: " + timeLeft);
             yield return new WaitForSeconds(waitTime);
         }
+    }
 
-        
+    public void Restart()
+    {
+        SceneManager.LoadScene(currentScene.name);
+    }
 
-        
+    public void GiveUp()
+    {
+        Application.Quit();
     }
 
     public void StartAnimate()
     {
+        transform.localScale = Vector3.one;
         StartCoroutine(Animate());
     }
 }

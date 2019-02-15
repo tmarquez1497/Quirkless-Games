@@ -80,9 +80,6 @@ public class MouseLook {
 
     private void InternalLockUpdate()
     {
-        // If the GameManager exists and the game isn't paused . . .
-        if (gameManager == null || !gameManager.isPaused)
-        {
             /**
             * If L is pressed, show the mouse pointer
             * If the player clicks the game, hide the mouse pointer
@@ -105,7 +102,6 @@ public class MouseLook {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
-        }
     }
 
     Quaternion ClampXRotation(Quaternion q)

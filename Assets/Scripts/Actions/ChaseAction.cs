@@ -11,8 +11,10 @@ using UnityEngine;
 public class ChaseAction : Action {
     public override void Act(StateController controller)
     {
+        Vector3 dest = new Vector3(controller.chaseTarget.position.x, controller.transform.position.y, controller.chaseTarget.position.z);
+
         controller.navMeshAgent.isStopped = true;
-        controller.navMeshAgent.destination = controller.chaseTarget.position;
+        controller.navMeshAgent.destination = dest;
         controller.navMeshAgent.isStopped = false;
     }
 }

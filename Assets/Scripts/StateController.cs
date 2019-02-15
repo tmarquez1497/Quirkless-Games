@@ -52,14 +52,20 @@ public class StateController : MonoBehaviour {
         // If the next objective is not empty, change to the new objective.
         if (nextState != remainState)
         {
+            OnExitState(currentState, nextState);
             currentState = nextState;
-            //OnExitState(); Uncomment if needed later.
         }
     }
 
-    private void OnExitState()
+    private void OnExitState(State current, State next)
     {
-        // Placeholder for later features (if needed)
-        Debug.Log("Don't need yet!");
+        switch (current.name)
+        {
+            case "GuardPatrol":
+                gameManager.GameOver();
+                break;
+            default:
+                break;
+        }
     }
 }
