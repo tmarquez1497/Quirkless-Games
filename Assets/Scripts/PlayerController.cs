@@ -21,84 +21,95 @@ public class PlayerController : MonoBehaviour {
     private bool previouslyGrounded;                            // Was the player on the ground during the last frame
     private bool jumping;                                       // Is the player in the air
     private bool isWalking;                                     // Is the shift key being held or not
+    private GameManager gameManager = null;                     // Reference to the GameManager script
 
 	void Start () {
-        // Grab the character controller component, find the camera, and startup the mouse script.
+        // Grab the character controller component, find the camera, find the GameManager and startup the mouse script.
         characterController = GetComponent<CharacterController>();
         mCamera = Camera.main;
         jumping = false;
         mouseLook.Init(transform, mCamera.transform);
-	}
+        if (GameObject.Find("GameManager") != null)
+            gameManager = GameManager.instance;
+    }
 	
 	void Update () {
-        // Rotate the camera
-        RotateView();
-
-        //If the player didn't already jump and is not in the air then get the jump input.
-        if (!jump && !jumping)
-            jump = Input.GetButtonDown("Jump");
-
-        // If the player was not on the ground last frame and is on the ground now . . .
-        if (!previouslyGrounded && characterController.isGrounded)
+        // If the GameManager exists and the game isn't paused . . .
+        if (gameManager == null || !gameManager.isPaused)
         {
-            // . . . Set the y axis movement to 0 and jumping to false
-            moveDir.y = 0f;
-            jumping = false;
+            // Rotate the camera
+            RotateView();
+
+            //If the player didn't already jump and is not in the air then get the jump input.
+            if (!jump && !jumping)
+                jump = Input.GetButtonDown("Jump");
+
+            // If the player was not on the ground last frame and is on the ground now . . .
+            if (!previouslyGrounded && characterController.isGrounded)
+            {
+                // . . . Set the y axis movement to 0 and jumping to false
+                moveDir.y = 0f;
+                jumping = false;
+            }
+
+            // If the player is not on the ground and is not in the air but was grounded last frame, then clear the upward movement.
+            if (!characterController.isGrounded && !jumping && previouslyGrounded)
+                moveDir.y = 0f;
+
+            // Check to see if the player is on the ground or not.
+            previouslyGrounded = characterController.isGrounded;
         }
-
-        // If the player is not on the ground and is not in the air but was grounded last frame, then clear the upward movement.
-        if (!characterController.isGrounded && !jumping && previouslyGrounded)
-            moveDir.y = 0f;
-
-        // Check to see if the player is on the ground or not.
-        previouslyGrounded = characterController.isGrounded;
 	}
 
     private void FixedUpdate()
     {
-        // Grab controller input (if any)
-        float speed;
-        GetInput(out speed);
-
-        // Set the next movement position based on the input
-        Vector3 desiredMove = transform.forward * mInput.y + transform.right * mInput.x;
-
-        // Check to see if the player is above the ground, then set the movement position to the right axis.
-        RaycastHit hitInfo;
-        Physics.SphereCast(transform.position, characterController.radius, Vector3.down, out hitInfo, characterController.height / 2f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
-        desiredMove = Vector3.ProjectOnPlane(desiredMove, hitInfo.normal).normalized;
-
-        // Then scale the movement vector by the the player's speed
-        moveDir.x = desiredMove.x * speed;
-        moveDir.z = desiredMove.z * speed;
-
-        // If the player is on the ground . . .
-        if (characterController.isGrounded)
+        // If the GameManager exists and the game isn't paused . . .
+        if (gameManager == null || !gameManager.isPaused)
         {
-            // . . . apply the ground force.
-            moveDir.y = -stickToGroundForce;
+            // Grab controller input (if any)
+            float speed;
+            GetInput(out speed);
 
-            // If jump was pressed while on the ground . . .
-            if (jump)
+            // Set the next movement position based on the input
+            Vector3 desiredMove = transform.forward * mInput.y + transform.right * mInput.x;
+
+            // Check to see if the player is above the ground, then set the movement position to the right axis.
+            RaycastHit hitInfo;
+            Physics.SphereCast(transform.position, characterController.radius, Vector3.down, out hitInfo, characterController.height / 2f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+            desiredMove = Vector3.ProjectOnPlane(desiredMove, hitInfo.normal).normalized;
+
+            // Then scale the movement vector by the the player's speed
+            moveDir.x = desiredMove.x * speed;
+            moveDir.z = desiredMove.z * speed;
+
+            // If the player is on the ground . . .
+            if (characterController.isGrounded)
             {
-                // . . . add the upward force to the vector, reset the jump variable, and set jumping to true.
-                moveDir.y = jumpSpeed;
-                jump = false;
-                jumping = true;
-                // [Note] Add setup to play jump sound if needed
+                // . . . apply the ground force.
+                moveDir.y = -stickToGroundForce;
+
+                // If jump was pressed while on the ground . . .
+                if (jump)
+                {
+                    // . . . add the upward force to the vector, reset the jump variable, and set jumping to true.
+                    moveDir.y = jumpSpeed;
+                    jump = false;
+                    jumping = true;
+                    // [Note] Add setup to play jump sound if needed
+                }
             }
-        }
-        // If the player is in the air, apply the downward force of gravity.
-        else
-        {
-            moveDir += Physics.gravity * gravityMultiplier * Time.fixedDeltaTime;
-        }
+            // If the player is in the air, apply the downward force of gravity.
+            else
+            {
+                moveDir += Physics.gravity * gravityMultiplier * Time.fixedDeltaTime;
+            }
 
-        // Move the player and save any collisions made.
-        collisionFlags = characterController.Move(moveDir * Time.fixedDeltaTime);
+            // Move the player and save any collisions made.
+            collisionFlags = characterController.Move(moveDir * Time.fixedDeltaTime);
 
-        // Check to see if the mouse pointer should be hidden.
-        mouseLook.UpdateCursorLock();
+            // Check to see if the mouse pointer should be hidden.
+            mouseLook.UpdateCursorLock();
+        }
     }
 
     private void GetInput(out float speed)

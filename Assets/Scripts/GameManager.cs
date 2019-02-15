@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour {
 
     public Color spotColor;                             // Color of all patrol spots.
     [RangeAttribute(0f, 10f)] public float spotSize;    // Size of the patrol spots, ranges from 0 to 10 units. (In editor only).
+    [HideInInspector] public bool isPaused = false;     // A boolean to check if the game is paused or not.
 
     private void Awake()
     {
@@ -22,6 +23,12 @@ public class GameManager : MonoBehaviour {
 
         // Tell Unity to keep this gameobject when loading and unloading scenes.
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            isPaused = !isPaused;
     }
 
     private void OnDrawGizmos()
