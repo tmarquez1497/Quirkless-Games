@@ -16,12 +16,15 @@ public class MouseLook {
     private Quaternion mCharacterTargetRot;     // Stored rotation of the player
     private Quaternion mCameraTargetRot;        // Stored rotation of the camera
     private bool mCursorIsLocked = true;        // Is the mouse pointer currently hidden
+    private GameManager gameManager = null;
 
     public void Init(Transform character, Transform camera)
     {
         // Grab and store the rotation of the player and camera
         mCharacterTargetRot = character.localRotation;
         mCameraTargetRot = camera.localRotation;
+        if (GameObject.Find("GameManager") != null)
+            gameManager = GameManager.instance;
     }
 
     public void LookRotation(Transform character, Transform camera)
@@ -77,27 +80,31 @@ public class MouseLook {
 
     private void InternalLockUpdate()
     {
-        /**
-        * If L is pressed, show the mouse pointer
-        * If the player clicks the game, hide the mouse pointer
-        */ 
-        if (Input.GetKeyUp(KeyCode.L))
+        // If the GameManager exists and the game isn't paused . . .
+        if (gameManager == null || !gameManager.isPaused)
         {
-            mCursorIsLocked = false;
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            mCursorIsLocked = true;
-        }
-        if (mCursorIsLocked)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-        else if (!mCursorIsLocked)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            /**
+            * If L is pressed, show the mouse pointer
+            * If the player clicks the game, hide the mouse pointer
+            */
+            if (Input.GetKeyUp(KeyCode.L))
+            {
+                mCursorIsLocked = false;
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                mCursorIsLocked = true;
+            }
+            if (mCursorIsLocked)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+            else if (!mCursorIsLocked)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
         }
     }
 
