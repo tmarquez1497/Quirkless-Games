@@ -2,62 +2,71 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameOver : MonoBehaviour {
 
-    public float totalTime;
+    public int totalTimes;
     public float waitTime;
 
     private Text mText;
-    private string message = "You've Been Spotted!!!";
-    private const string alphabet = "ABCČĆDĐEFGHIJKLMNOPQRSŠTUVWXYZŽabcčćdđefghijklmnopqrsštuvwxyzžĂÂÊÔƠƯăâêôơư1234567890‘?’“!”(%)[#]{@}/&\\<-+÷×=>®©$€£¥¢:;,.*";
-    private bool isAnimating = false;
-    private float timeLeft;
+    private const string message = "You've Been Spotted!!!";
+    private const string binary = "01011001011011110111010110000101110011011010110110011101110111011100000110100101110101011100010110110101100011";
+    private string totalTime = "";
+    private Text totalText;
+    private Scene currentScene;
+    private int initialTotal;
 
     // Use this for initialization
     void Start () {
         mText = transform.GetChild(0).GetComponent<Text>();
-        timeLeft = totalTime;
+        totalText = transform.GetChild(1).GetComponent<Text>();
+        totalText.text = totalTime;
+        currentScene = SceneManager.GetActiveScene();
+        initialTotal = totalTimes;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(isAnimating && mText.text.Equals(message))
-        {
-            StopCoroutine("Animate");
-            isAnimating = false;
-            timeLeft = totalTime;
-        }
+
 	}
 
     IEnumerator Animate()
     {
         string result = "";
-        isAnimating = true;
 
-        while (timeLeft > waitTime)
+        while (totalTimes-- >= 0)
         {
             result = "";
-            timeLeft -= waitTime;
             for (int i = 0; i < mText.text.Length; i++)
             {
-                if (timeLeft > waitTime)
-                    result += alphabet[Random.Range(0, alphabet.Length)];
+                if (totalTimes > 0)
+                    result += binary[Random.Range(0, binary.Length)];
                 else
                     result = message;
             }
             mText.text = result;
-            //Debug.Log("Time Left: " + timeLeft);
             yield return new WaitForSeconds(waitTime);
         }
 
-        
-
-        
+        totalTimes = initialTotal;
+        totalText.text = "You took: " + totalTime + " total.";
     }
 
-    public void StartAnimate()
+    public void Restart()
     {
+        SceneManager.LoadScene(currentScene.name);
+    }
+
+    public void GiveUp()
+    {
+        Application.Quit();
+    }
+
+    public void StartAnimate(string totalStr)
+    {
+        totalTime = totalStr;
+        transform.localScale = Vector3.one;
         StartCoroutine(Animate());
     }
 }
