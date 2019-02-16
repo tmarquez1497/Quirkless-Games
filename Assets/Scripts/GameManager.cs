@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -10,10 +11,10 @@ public class GameManager : MonoBehaviour {
     public Color spotColor;                             // Color of all patrol spots.
     [RangeAttribute(0f, 10f)] public float spotSize;    // Size of the patrol spots, ranges from 0 to 10 units. (In editor only).
     [HideInInspector] public bool isPaused = false;     // A boolean to check if the game is paused or not.
-    public GameObject gameOverMenu;
-    public GameObject pauseMenuPanel;
-    public Text timerText;
 
+    private GameObject gameOverMenu;
+    private GameObject pauseMenuPanel;
+    private Text timerText;
     private GameOver gameOver;
     private PauseMenu pauseMenu;
     private bool isStopped = false;
@@ -36,8 +37,25 @@ public class GameManager : MonoBehaviour {
 
     private void Start()
     {
+        Setup();
+        SceneManager.activeSceneChanged += Setup;
+    }
+
+    private void Setup(Scene current, Scene next)
+    {
+        Setup();
+    }
+
+    private void Setup()
+    {
+        gameOverMenu = GameObject.Find("GameOver");
+        pauseMenuPanel = GameObject.Find("PauseMenu");
+        timerText = GameObject.Find("Timer").GetComponent<Text>();
         gameOver = gameOverMenu.GetComponent<GameOver>();
         pauseMenu = pauseMenuPanel.GetComponent<PauseMenu>();
+        mTime = 0f;
+        isPaused = false;
+        isStopped = false;
     }
 
     private void Update()
@@ -53,7 +71,7 @@ public class GameManager : MonoBehaviour {
 
         if(!instance.isPaused && !instance.isStopped)
         {
-            if (mTime <= 1000f)
+            if (mTime <= 60f)
             {
                 timerText.text = Format(mTime);
                 mTime += Time.deltaTime;
@@ -77,7 +95,7 @@ public class GameManager : MonoBehaviour {
         if (minutes < 10f) result += "0";
         result += minutes + ":";
         if (seconds < 10f) result += "0";
-        result += seconds + "." + (ms % 1000f);
+        result += seconds + "." + Mathf.RoundToInt((ms - seconds) * 1000f);
 
         return result;
     }
@@ -86,8 +104,9 @@ public class GameManager : MonoBehaviour {
     {
         instance.isPaused = true;
         instance.isStopped = true;
+        timerText.text = "";
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().SetCursor(false);
-        gameOver.StartAnimate();
+        gameOver.StartAnimate(Format(mTime));
     }
 
     private void OnDrawGizmos()

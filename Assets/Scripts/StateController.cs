@@ -15,7 +15,7 @@ public class StateController : MonoBehaviour {
     [HideInInspector] public Transform chaseTarget;             // The transform of the object to chase (when chasing)
 
     private bool isAiActive;                                    // Is the navigation system on
-    private GameManager gameManager = null;                     // Reference to the GameManger script
+    //private GameManager gameManager = null;                     // Reference to the GameManger script
 
     private void Awake()
     {
@@ -24,8 +24,6 @@ public class StateController : MonoBehaviour {
         GameObject[] wayPoints = GameObject.FindGameObjectsWithTag("PatrolSpot");
         wayPointList = new List<Transform>();
         isAiActive = true;
-        if (GameObject.Find("GameManager") != null)
-            gameManager = GameManager.instance;
 
         for (int i = 0; i < wayPoints.Length; i++)
             wayPointList.Add(wayPoints[i].transform);
@@ -33,7 +31,7 @@ public class StateController : MonoBehaviour {
 
     void Update () {
         // If the GameManager exists and the game isn't paused . . .
-        if (gameManager == null || !gameManager.isPaused)
+        if (GameManager.instance == null || !GameManager.instance.isPaused)
         {
             // If the navigation system is not on, do nothing.
             if (!isAiActive)
@@ -62,7 +60,7 @@ public class StateController : MonoBehaviour {
         switch (current.name)
         {
             case "GuardPatrol":
-                gameManager.GameOver();
+                GameManager.instance.GameOver();
                 break;
             default:
                 break;

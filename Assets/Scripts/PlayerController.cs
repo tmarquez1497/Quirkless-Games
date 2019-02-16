@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour {
     private bool previouslyGrounded;                            // Was the player on the ground during the last frame
     private bool jumping;                                       // Is the player in the air
     private bool isWalking;                                     // Is the shift key being held or not
-    private GameManager gameManager = null;                     // Reference to the GameManager script
     private bool isDead = false;
 
 	void Start () {
@@ -30,13 +29,11 @@ public class PlayerController : MonoBehaviour {
         mCamera = Camera.main;
         jumping = false;
         mouseLook.Init(transform, mCamera.transform);
-        if (GameObject.Find("GameManager") != null)
-            gameManager = GameManager.instance;
     }
 	
 	void Update () {
         // If the GameManager exists and the game isn't paused . . .
-        if (gameManager == null || !gameManager.isPaused)
+        if (GameManager.instance == null || !GameManager.instance.isPaused)
         {
             // Rotate the camera
             RotateView();
@@ -65,7 +62,7 @@ public class PlayerController : MonoBehaviour {
     private void FixedUpdate()
     {
         // If the GameManager exists and the game isn't paused . . .
-        if (gameManager == null || !gameManager.isPaused)
+        if (GameManager.instance == null || !GameManager.instance.isPaused)
         {
             // Grab controller input (if any)
             float speed;

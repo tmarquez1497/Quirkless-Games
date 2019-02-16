@@ -5,12 +5,10 @@ using UnityEngine;
 public class PauseMenu : MonoBehaviour {
 
     private bool isOn = false;
-    private GameManager gameManager = null;
 
 	// Use this for initialization
 	void Start () {
-        if (GameObject.Find("GameManager") != null)
-            gameManager = GameManager.instance;
+        
 	}
 	
 	// Update is called once per frame
@@ -28,7 +26,7 @@ public class PauseMenu : MonoBehaviour {
         }
         else
         {
-            gameManager.isPaused = false;
+            GameManager.instance.isPaused = false;
             transform.localScale = Vector3.zero;
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().SetCursor(true);
         }
