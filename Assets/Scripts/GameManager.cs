@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
@@ -11,10 +12,12 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public bool isPaused = false;     // A boolean to check if the game is paused or not.
     public GameObject gameOverMenu;
     public GameObject pauseMenuPanel;
+    public Text timerText;
 
     private GameOver gameOver;
     private PauseMenu pauseMenu;
     private bool isStopped = false;
+    private float mTime = 0f;
 
     private void Awake()
     {
@@ -47,6 +50,36 @@ public class GameManager : MonoBehaviour {
                 pauseMenu.PlayPause();
             }
         }
+
+        if(!instance.isPaused && !instance.isStopped)
+        {
+            if (mTime <= 1000f)
+            {
+                timerText.text = Format(mTime);
+                mTime += Time.deltaTime;
+            }
+            else
+            {
+                timerText.color = Color.red;
+                timerText.text = "1:00.000";
+                mTime += Time.deltaTime;
+            }
+        }
+    }
+
+    private string Format(float ms)
+    {
+        string result = "";
+        float hours = Mathf.Floor(ms / 3600f);
+        float minutes = Mathf.Floor((ms - (hours * 3600f)) / 60f);
+        float seconds = Mathf.Floor(ms - (hours * 3600f) - (minutes * 60f));
+
+        if (minutes < 10f) result += "0";
+        result += minutes + ":";
+        if (seconds < 10f) result += "0";
+        result += seconds + "." + (ms % 1000f);
+
+        return result;
     }
 
     public void GameOver()

@@ -10,29 +10,26 @@ public class GameOver : MonoBehaviour {
     public float waitTime;
 
     private Text mText;
-    private string message = "You've Been Spotted!!!";
-    private const string alphabet = "ABCČĆDĐEFGHIJKLMNOPQRSŠTUVWXYZŽabcčćdđefghijklmnopqrsštuvwxyzžĂÂÊÔƠƯăâêôơư1234567890‘?’“!”(%)[#]{@}/&\\<-+÷×=>®©$€£¥¢:;,.*";
+    private const string message = "You've Been Spotted!!!";
     private const string binary = "01011001011011110111010110000101110011011010110110011101110111011100000110100101110101011100010110110101100011";
-    private bool isAnimating = false;
-    private float timeLeft;
     private Scene currentScene;
+    private int initialTotal;
 
     // Use this for initialization
     void Start () {
         mText = transform.GetChild(0).GetComponent<Text>();
         currentScene = SceneManager.GetActiveScene();
+        initialTotal = totalTimes;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 
     IEnumerator Animate()
     {
         string result = "";
-        string subMessage = message;
-        isAnimating = true;
 
         while (totalTimes-- >= 0)
         {
@@ -45,9 +42,10 @@ public class GameOver : MonoBehaviour {
                     result = message;
             }
             mText.text = result;
-            //Debug.Log("Time Left: " + timeLeft);
             yield return new WaitForSeconds(waitTime);
         }
+
+        totalTimes = initialTotal;
     }
 
     public void Restart()
