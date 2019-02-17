@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PatrolSpot
   - Guard
+  - PickUp
   layers:
   - Default
   - TransparentFX

@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour {
     private bool previouslyGrounded;                            // Was the player on the ground during the last frame
     private bool jumping;                                       // Is the player in the air
     private bool isWalking;                                     // Is the shift key being held or not
-    private bool isDead = false;
 
 	void Start () {
         // Grab the character controller component, find the camera, find the GameManager and startup the mouse script.
@@ -149,6 +148,11 @@ public class PlayerController : MonoBehaviour {
             return;
         if (body == null || body.isKinematic)
             return;
+        if (body.tag.Equals("PickUp"))
+        {
+            body.gameObject.SetActive(false);
+            GameManager.instance.YouWin();
+        }
 
         // Otherwise, add a force to whatever was hit.
         body.AddForceAtPosition(characterController.velocity * 0.1f, hit.point, ForceMode.Impulse);

@@ -8,9 +8,11 @@ public class StateController : MonoBehaviour {
     public State currentState;                                  // The current objective of the guard.
     public State remainState;                                   // Placeholder for an empty objective.
     public FieldOfView eyes;                                    // The script of whatever object forms the guard's line of sight.
+    public Color spotColor;                                     // Color of the guard's patrol spots
+    [RangeAttribute(0.4f, 10f)] public float spotSize;            // Size of the patrol spots, ranges from 0 to 10 units. (In editor only).
 
     [HideInInspector] public NavMeshAgent navMeshAgent;         // The NavMeshAgent component
-    [HideInInspector] public List<Transform> wayPointList;      // The list of points for the guard to patrol around (Set in Unity)
+    [HideInInspector] public List<Vector3> wayPointList;      // The list of points for the guard to patrol around (Set in Unity)
     [HideInInspector] public int nextWayPoint;                  // The number of the next point to patrol to
     [HideInInspector] public Transform chaseTarget;             // The transform of the object to chase (when chasing)
 
@@ -21,12 +23,15 @@ public class StateController : MonoBehaviour {
     {
         // In here we grab the NavMeshAgent and store every patrol point (Taged with "PatrolSpot")
         navMeshAgent = GetComponent<NavMeshAgent>();
-        GameObject[] wayPoints = GameObject.FindGameObjectsWithTag("PatrolSpot");
-        wayPointList = new List<Transform>();
+        wayPointList = new List<Vector3>();
         isAiActive = true;
 
-        for (int i = 0; i < wayPoints.Length; i++)
-            wayPointList.Add(wayPoints[i].transform);
+        /*for (int i = 0; i < wayPoints.Length; i++)
+            wayPointList.Add(wayPoints[i].transform);*/
+
+        for (int i = 0; i < transform.childCount; i++)
+            if (transform.GetChild(i).tag.Equals("PatrolSpot"))
+                wayPointList.Add(transform.GetChild(i).position);
     }
 
     void Update () {
@@ -65,5 +70,18 @@ public class StateController : MonoBehaviour {
             default:
                 break;
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        /**
+         * 1. Find all the patrol spots (taged with "PatrolSpot")
+         * 2. Create a sphere in the editor with the size and color you give it in the inspector.
+         */
+        Gizmos.color = spotColor;
+
+        for (int i = 0; i < transform.childCount; i++)
+            if (transform.GetChild(i).tag.Equals("PatrolSpot"))
+                Gizmos.DrawSphere(transform.GetChild(i).position, spotSize);
     }
 }

@@ -14,7 +14,7 @@ public class PatrolAction : Action {
     public override void Act(StateController controller)
     {
         controller.navMeshAgent.isStopped = true;
-        controller.navMeshAgent.destination = controller.wayPointList[controller.nextWayPoint].position;
+        controller.navMeshAgent.destination = controller.wayPointList[controller.nextWayPoint];
         controller.navMeshAgent.isStopped = false;
 
         if (controller.navMeshAgent.remainingDistance <= controller.navMeshAgent.stoppingDistance && !controller.navMeshAgent.pathPending)
