@@ -53,3 +53,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spotColor: {r: 0.108134575, g: 0.5594276, b: 0.8490566, a: 0.6784314}
   spotSize: 0.8
+  isPaused: 0

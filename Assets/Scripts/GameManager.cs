@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour {
 
     public static GameManager instance = null;          // There can only be one copy of this gameobject. This stores the copy.
 
-    public Color spotColor;                             // Color of all patrol spots.
-    [RangeAttribute(0f, 10f)] public float spotSize;    // Size of the patrol spots, ranges from 0 to 10 units. (In editor only).
     [HideInInspector] public bool isPaused = false;     // A boolean to check if the game is paused or not.
 
     private GameObject gameOverMenu;
     private GameObject pauseMenuPanel;
+    private YouWin youWin;
     private Text timerText;
     private GameOver gameOver;
     private PauseMenu pauseMenu;
     private bool isStopped = false;
     private float mTime = 0f;
+    private EventSystem eventSystem;
 
     private void Awake()
     {
@@ -53,6 +54,8 @@ public class GameManager : MonoBehaviour {
         timerText = GameObject.Find("Timer").GetComponent<Text>();
         gameOver = gameOverMenu.GetComponent<GameOver>();
         pauseMenu = pauseMenuPanel.GetComponent<PauseMenu>();
+        youWin = GameObject.Find("YouWin").GetComponent<YouWin>();
+        eventSystem = EventSystem.current;
         mTime = 0f;
         isPaused = false;
         isStopped = false;
@@ -85,6 +88,11 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public void SetUI(GameObject first)
+    {
+        eventSystem.SetSelectedGameObject(first);
+    }
+
     private string Format(float ms)
     {
         string result = "";
@@ -109,16 +117,12 @@ public class GameManager : MonoBehaviour {
         gameOver.StartAnimate(Format(mTime));
     }
 
-    private void OnDrawGizmos()
+    public void YouWin()
     {
-        /**
-         * 1. Find all the patrol spots (taged with "PatrolSpot")
-         * 2. Create a sphere in the editor with the size and color you give it in the inspector.
-         */
-        GameObject[] points = GameObject.FindGameObjectsWithTag("PatrolSpot");
-
-        Gizmos.color = spotColor;
-        for (int i = 0; i < points.Length; i++)
-            Gizmos.DrawSphere(points[i].transform.position, spotSize);
+        instance.isPaused = true;
+        instance.isStopped = true;
+        timerText.text = "";
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().SetCursor(false);
+        youWin.OnWin(Format(mTime));
     }
 }
