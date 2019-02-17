@@ -240,8 +240,8 @@ Transform:
   m_LocalPosition: {x: -10.5, y: 0, z: 26.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 428146420}
-  m_RootOrder: 2
+  m_Father: {fileID: 1636620278}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &119428304
 GameObject:
@@ -536,8 +536,8 @@ Transform:
   m_LocalPosition: {x: -8.6, y: 0, z: 4.6000004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 428146420}
-  m_RootOrder: 3
+  m_Father: {fileID: 1636620278}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &280033997
 Prefab:
@@ -825,10 +825,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 975836668}
-  - {fileID: 961902209}
-  - {fileID: 109370438}
-  - {fileID: 246737322}
-  - {fileID: 1188975590}
+  - {fileID: 1636620278}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -867,8 +864,9 @@ MonoBehaviour:
   currentState: {fileID: 11400000, guid: 4b2ca65660e00d743be0590b88b706c1, type: 2}
   remainState: {fileID: 11400000, guid: 939c0adf042f4614aae6ec82de04be62, type: 2}
   eyes: {fileID: 975836672}
-  spotColor: {r: 0.10070309, g: 0.13876541, b: 0.6886792, a: 0.6509804}
-  spotSize: 1
+  patrolSpotColor: {r: 0.19223925, g: 0.317994, b: 0.9056604, a: 0.6156863}
+  patrolSpots: {fileID: 1636620278}
+  patrolSpotSize: 1.33
   navMeshAgent: {fileID: 0}
   wayPointList: []
   nextWayPoint: 0
@@ -965,8 +963,8 @@ Transform:
   m_LocalPosition: {x: 2.1000004, y: 0, z: 34.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 428146420}
-  m_RootOrder: 1
+  m_Father: {fileID: 1636620278}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &975836667
 GameObject:
@@ -1329,8 +1327,8 @@ Transform:
   m_LocalPosition: {x: 5.300001, y: 0, z: 13.630001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 428146420}
-  m_RootOrder: 4
+  m_Father: {fileID: 1636620278}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1608305038
 GameObject:
@@ -1409,6 +1407,38 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!1 &1636620277
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1636620278}
+  m_Layer: 0
+  m_Name: PatrolSpots
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1636620278
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1636620277}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 961902209}
+  - {fileID: 109370438}
+  - {fileID: 246737322}
+  - {fileID: 1188975590}
+  m_Father: {fileID: 428146420}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &1807804644 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224721877187952524, guid: eacd3a156d2e8b942b439d6a12b799c8,
