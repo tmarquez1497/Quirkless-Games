@@ -8,10 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/DakaTestScene.unity
     guid: 803b9e6e4b61e2c4c866dbeb91183d9e
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Quirkless.unity
     guid: 51dd3086016885c44824e0a88cde7f6c
   m_configObjects: {}
