@@ -25624,8 +25624,8 @@ MonoBehaviour:
   patrolSpotColor: {r: 1, g: 0, b: 0.710124, a: 0.56078434}
   patrolSpots: {fileID: 1533342721}
   patrolSpotSize: 0.4
-  minSoundDistance: 0
-  maxSoundDistance: 0
+  minSoundDistance: 5
+  maxSoundDistance: 20
   navMeshAgent: {fileID: 0}
   wayPointList: []
   nextWayPoint: 0
@@ -25646,7 +25646,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c010e16ac454c5240917b66ef11ab8b6, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0
+  m_Volume: 0.057
   m_Pitch: -3
   Loop: 1
   Mute: 0
@@ -25654,8 +25654,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 0
   DopplerLevel: 0
-  MinDistance: 1
-  MaxDistance: 40
+  MinDistance: 0.5
+  MaxDistance: 1000
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -32596,8 +32596,8 @@ MonoBehaviour:
   patrolSpotColor: {r: 0, g: 1, b: 0.97454166, a: 0.56078434}
   patrolSpots: {fileID: 1302780292}
   patrolSpotSize: 0.4
-  minSoundDistance: 15
-  maxSoundDistance: 50
+  minSoundDistance: 5
+  maxSoundDistance: 20
   navMeshAgent: {fileID: 0}
   wayPointList: []
   nextWayPoint: 0
@@ -32642,8 +32642,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 0
   DopplerLevel: 0
-  MinDistance: 1
-  MaxDistance: 40
+  MinDistance: 0.5
+  MaxDistance: 1000
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -32693,7 +32693,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.28611112
+      value: 0.2
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -42429,8 +42429,8 @@ MonoBehaviour:
   patrolSpotColor: {r: 0.9339623, g: 0.8964721, b: 0.030838395, a: 0.56078434}
   patrolSpots: {fileID: 396091263}
   patrolSpotSize: 0.4
-  minSoundDistance: 15
-  maxSoundDistance: 50
+  minSoundDistance: 5
+  maxSoundDistance: 20
   navMeshAgent: {fileID: 0}
   wayPointList: []
   nextWayPoint: 0
@@ -42459,8 +42459,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 0
   DopplerLevel: 0
-  MinDistance: 1
-  MaxDistance: 40
+  MinDistance: 0.5
+  MaxDistance: 1000
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -60757,8 +60757,8 @@ MonoBehaviour:
   patrolSpotColor: {r: 1, g: 0, b: 0.07139683, a: 0.56078434}
   patrolSpots: {fileID: 783882963}
   patrolSpotSize: 0.4
-  minSoundDistance: 0
-  maxSoundDistance: 0
+  minSoundDistance: 5
+  maxSoundDistance: 20
   navMeshAgent: {fileID: 0}
   wayPointList: []
   nextWayPoint: 0
@@ -60779,16 +60779,16 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c010e16ac454c5240917b66ef11ab8b6, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0
+  m_Volume: 0.057
   m_Pitch: -3
   Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 0
+  Priority: 124
   DopplerLevel: 0
-  MinDistance: 1
-  MaxDistance: 40
+  MinDistance: 0.5
+  MaxDistance: 1000
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -60837,8 +60837,8 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0.28611112
+      time: 0.01345253
+      value: 0.18671536
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -60852,8 +60852,8 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0.28
+      time: 0.01345253
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
