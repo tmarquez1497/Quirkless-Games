@@ -8,17 +8,20 @@ public class StateController : MonoBehaviour {
     public State currentState;                                  // The current objective of the guard.
     public State remainState;                                   // Placeholder for an empty objective.
     public FieldOfView eyes;                                    // The script of whatever object forms the guard's line of sight.
-    public Color patrolSpotColor;                                     // Color of the guard's patrol spots
+    public Color patrolSpotColor;                               // Color of the guard's patrol spots
     public Transform patrolSpots;                               // The child object that holds all of its patrol spots.
-    [RangeAttribute(0.4f, 10f)] public float patrolSpotSize;          // Size of the patrol spots, ranges from 0 to 10 units. (In editor only).
+    [RangeAttribute(0.4f, 10f)] public float patrolSpotSize;    // Size of the patrol spots, ranges from 0.4 to 10 units. (In editor only).
+    public float minSoundDistance;                              // How far should the guard be to the player before the electricty can't be heard.
+    public float maxSoundDistance;                              // How close should the guard be to the player before the electricity is max volume.
 
     [HideInInspector] public NavMeshAgent navMeshAgent;         // The NavMeshAgent component
-    [HideInInspector] public List<Vector3> wayPointList;      // The list of points for the guard to patrol around (Set in Unity)
+    [HideInInspector] public List<Vector3> wayPointList;        // The list of points for the guard to patrol around (Set in Unity)
     [HideInInspector] public int nextWayPoint;                  // The number of the next point to patrol to
     [HideInInspector] public Transform chaseTarget;             // The transform of the object to chase (when chasing)
 
     private bool isAiActive;                                    // Is the navigation system on
-    //private GameManager gameManager = null;                     // Reference to the GameManger script
+    private AudioSource audioSource;
+    private GameObject playerRef;
 
     private void Awake()
     {
@@ -35,7 +38,17 @@ public class StateController : MonoBehaviour {
                 wayPointList.Add(patrolSpots.GetChild(i).position);
     }
 
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        playerRef = GameObject.FindGameObjectWithTag("Player");
+    }
+
     void Update () {
+        float distToPlayer = Vector3.Distance(transform.position, playerRef.transform.position);
+
+        audioSource.volume = LinMap(distToPlayer);
+
         // If the GameManager exists and the game isn't paused . . .
         if (GameManager.instance == null || !GameManager.instance.isPaused)
         {
@@ -59,6 +72,11 @@ public class StateController : MonoBehaviour {
             OnExitState(currentState, nextState);
             currentState = nextState;
         }
+    }
+
+    private float LinMap(float value)
+    {
+        return (value - minSoundDistance) / (maxSoundDistance - minSoundDistance) * (0f - 1f) + 1f;
     }
 
     private void OnExitState(State current, State next)
