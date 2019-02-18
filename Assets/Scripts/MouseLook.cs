@@ -27,8 +27,8 @@ public class MouseLook {
     public void LookRotation(Transform character, Transform camera)
     {
         // Grab and store the mouse postion and scale by sensitivity
-        float xRot = Input.GetAxis("Mouse Y") * XSensitivity;
-        float yRot = Input.GetAxis("Mouse X") * YSensitivity;
+        float xRot = Input.GetAxis("Camera Y") * XSensitivity;
+        float yRot = Input.GetAxis("Camera X") * YSensitivity;
 
         // Rotate the player and the camera by an angle equal to mouse movement
         mCharacterTargetRot *= Quaternion.Euler(0f, yRot, 0f);

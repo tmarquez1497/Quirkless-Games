@@ -30,7 +30,7 @@ public class MainMenu : MonoBehaviour {
     public void Play()
     {
         StopAllCoroutines();
-        SceneManager.LoadScene(SceneManager.GetSceneAt(1).name);
+        SceneManager.LoadScene("Quirkless");
     }
 
     public void Credits()
