@@ -121,7 +121,7 @@ public class PlayerController : MonoBehaviour {
         float vertical = Input.GetAxis("Vertical");
 
         // Is the run button being held down for running,
-        isWalking = !Input.GetKey(KeyCode.LeftShift);
+        isWalking = !Input.GetButton("Run");
 
         // if so the player is walking; if not then it's running
         speed = isWalking ? walkSpeed : runSpeed;
