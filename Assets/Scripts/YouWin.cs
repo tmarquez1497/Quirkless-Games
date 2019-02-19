@@ -98,8 +98,7 @@ public class YouWin : MonoBehaviour {
                 PlayAgain();
                 break;
             case WinOption.Exit:
-                StopAllCoroutines();
-                Exit();
+                StartCoroutine(Type(0f, "\n\nGoodbye.", 1.3f, () => Application.Quit()));
                 break;
             default:
                 break;

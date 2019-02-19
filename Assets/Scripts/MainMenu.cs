@@ -11,7 +11,8 @@ public class MainMenu : MonoBehaviour {
     {
         Play,
         Credits,
-        Exit
+        Exit,
+        Next
     };
     private delegate void AfterEffect();
 
@@ -21,6 +22,7 @@ public class MainMenu : MonoBehaviour {
     public float typeSpeed;
 
     private const string title = "Corrupted";
+    private const string instructions = "Objective: Reach the core system chip while evading anti-virus\nprotocols.\n\nWASD/Arrow Keys/Left Stick - Movement\nMouse/Right Stick - Camera\nLeft Shift/X Button - Sprint\nSpacebar/A Button - Jump\nEscape/Start - Pause\n\n< Start >";
     private const char BOX = '▁';
     private const string binary = "01011001011011110111010110000101110011011010110110011101110111011100000110100101110101011100010110110101100011";
     private Text mText;
@@ -123,18 +125,25 @@ public class MainMenu : MonoBehaviour {
 
     public void SubmitTrigger(BaseEventData data)
     {
-        Debug.Log("Submit triggered.");
+        //Debug.Log("Submit triggered.");
+
         switch (option)
         {
             case MainMenuOption.Play:
-                StopAllCoroutines();
-                SceneManager.LoadScene("Quirkless");
+                StopCoroutine("Blink");
+                mText.text = instructions + BOX;
+                StartCoroutine("Blink");
+                option = MainMenuOption.Next;
                 break;
             case MainMenuOption.Credits:
                 Credits();
                 break;
             case MainMenuOption.Exit:
                 StartCoroutine(Type(0f, "\n\nGoodbye.", 1.3f, () => Application.Quit()));
+                break;
+            case MainMenuOption.Next:
+                StopAllCoroutines();
+                SceneManager.LoadScene("Quirkless");
                 break;
             default:
                 break;
@@ -187,44 +196,6 @@ public class MainMenu : MonoBehaviour {
         if(action != null)
             action();
     }
-
-    /*
-    IEnumerator BlinkOption()
-    {
-        int left = 18, right = 25;
-        MainMenuOption lastOption = option;
-        bool isShown = true;
-
-        // Yes, this infinite loop is intentional
-        while (true)
-        {
-            if(lastOption != option)
-            {
-                switch (option)
-                {
-                    case MainMenuOption.Play:
-                        lastOption = option;
-                        left = 18;
-                        right = 25;
-                        break;
-                    case MainMenuOption.Credits:
-                        lastOption = option;
-                        break;
-                    case MainMenuOption.Exit:
-                        lastOption = option;
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            if (isShown)
-            {
-
-            }
-        }
-    }
-    */
 
     IEnumerator Animate()
     {

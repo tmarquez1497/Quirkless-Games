@@ -76,6 +76,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blinkTime: 0.48
+  typeSpeed: 0.03
 --- !u!114 &114231130173152938
 MonoBehaviour:
   m_ObjectHideFlags: 1

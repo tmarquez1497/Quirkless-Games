@@ -95,7 +95,7 @@ public class GameOver : MonoBehaviour {
                 Restart();
                 break;
             case GameOverOption.Quit:
-                GiveUp();
+                StartCoroutine(Type(0f, "\n\nGoodbye.", 1.3f, () => Application.Quit()));
                 break;
             default:
                 break;

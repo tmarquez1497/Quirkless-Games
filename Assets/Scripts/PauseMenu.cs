@@ -11,8 +11,10 @@ public class PauseMenu : MonoBehaviour {
         Resume,
         Quit
     };
+    private delegate void AfterEffect();
 
     public float blinkTime;
+    public float typeSpeed;
 
     private bool isOn = false;
     private const char BOX = '▁';
@@ -101,7 +103,7 @@ public class PauseMenu : MonoBehaviour {
                 break;
             case PauseOption.Quit:
                 StopAllCoroutines();
-                GetOut();
+                StartCoroutine(Type(0f, "\n\nGoodbye.", 1.3f, () => Application.Quit()));
                 break;
             default:
                 break;
@@ -129,6 +131,33 @@ public class PauseMenu : MonoBehaviour {
         }
 
         return lastIdx;
+    }
+
+    IEnumerator Type(float startDelay, string message, float endDelay, AfterEffect action)
+    {
+        char[] temp = mText.text.ToCharArray();
+        int msgIdx = 0;
+
+        if (startDelay > 0f)
+            yield return new WaitForSeconds(startDelay);
+
+        StopCoroutine("Blink");
+        temp[lastIdx] = BOX;
+        mText.text = new string(temp);
+        isOn = true;
+
+        while (msgIdx < message.Length)
+        {
+            mText.text = mText.text.Insert(lastIdx++, message.Substring(msgIdx++, 1));
+            yield return new WaitForSeconds(typeSpeed);
+        }
+
+        StartCoroutine("Blink");
+        if (endDelay > 0f)
+            yield return new WaitForSeconds(endDelay);
+
+        if (action != null)
+            action();
     }
 
     IEnumerator Blink()
